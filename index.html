@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="cityName" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="search">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" id="weatherIcon" alt="">
+            <h1 id="city">Dhaka</h1>
+            <h3><span id="temperature">38.06</span>&deg;C</h3>
+            <h1 id="condition" class="lead">Clouds</h1>
+        </div>
+    </div>
+
+
+
+    <script>
+        
+
+        document.getElementById("search").addEventListener("click", function(){
+
+        const city = document.getElementById("cityName").value;
+
+        // const API_KEY = "b0d9ed65117baa84475dc6ab92f415b6"
+        const url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=b0d9ed65117baa84475dc6ab92f415b6&" + "units=metric";
+
+            fetch(url)
+            .then(res => res.json())
+            .then(data => setData(data) )
+        
+              const getData = (id, text) => {
+                  document.getElementById(id).innerText = text;
+              }  
+
+              const setData = text => {
+                  getData("city", text.name);
+                  getData("temperature", text.main.temp);
+                  getData("condition", text.weather[0].main);
+
+                //   setting weather icon
+
+                const url = "http://openweathermap.org/img/wn/" + text.weather[0].icon + "@2x.png"
+                const imgIcon = document.getElementById("weatherIcon");
+                    imgIcon.setAttribute("src", url);
+              }
+            
+        })
+    </script>
+
+
+</body>
+</html>
